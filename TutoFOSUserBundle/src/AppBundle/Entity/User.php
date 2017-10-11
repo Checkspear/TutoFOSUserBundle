@@ -32,6 +32,11 @@ class User extends FosUser
      */
     protected $facebook_access_token;
 
+    /**
+     * @ORM\Column(name="img_profile", type="string", length=255, nullable=true)
+     */
+    protected $img_profile;
+
 
     /**
      * Get id
@@ -94,5 +99,29 @@ class User extends FosUser
     public function getFacebookAccessToken()
     {
         return $this->facebook_access_token;
+    }
+
+    /**
+     * Set imgProfile
+     *
+     * @param string $imgProfile
+     *
+     * @return User
+     */
+    public function setImgProfile($imgProfile)
+    {
+        $this->img_profile = $imgProfile;
+
+        return $this;
+    }
+
+    /**
+     * Get imgProfile
+     *
+     * @return string
+     */
+    public function getImgProfile()
+    {
+        return $this->img_profile;
     }
 }

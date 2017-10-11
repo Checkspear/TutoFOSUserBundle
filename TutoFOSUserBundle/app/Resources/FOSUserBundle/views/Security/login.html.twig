@@ -12,37 +12,40 @@
     {% endif %}
 
     <div class="wrapper">
-        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-            <h2 class="form-signin-heading">Enregistrement de votre compte :</h2><br>
-
-            {% if csrf_token %}
+        <div class="form-signin">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-            {% endif %}
+                <h2 class="form-signin-heading">Enregistrement de votre compte :</h2><br>
 
-            <!-- Username mit en forme avec Bootstrap -->
-            <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"
-                   placeholder="{{ 'security.login.username'|trans }}" required="required" autofocus="autofocus"/>
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                {% endif %}
 
-            <!-- Mot de passe mit en forme avec Bootstrap -->
-            <input type="password" id="password" class="form-control"
-                   placeholder="{{ 'security.login.password'|trans }}" name="_password" required="required"/>
+                <!-- Username mit en forme avec Bootstrap -->
+                <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"
+                       placeholder="{{ 'security.login.username'|trans }}" required="required" autofocus="autofocus"/>
 
-            <!-- La checkbox, elle, n'a pas changé -->
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                <!-- Mot de passe mit en forme avec Bootstrap -->
+                <input type="password" id="password" class="form-control"
+                       placeholder="{{ 'security.login.password'|trans }}" name="_password" required="required"/>
 
-            <!-- Bouton mit en forme avec Bootstrap -->
-            <input type="submit" id="_submit" class="btn btn-lg btn-primary btn-block" name="_submit"
-                   value="{{ 'security.login.submit'|trans }}"/>
+                <!-- La checkbox, elle, n'a pas changé -->
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
 
+                <!-- Bouton mit en forme avec Bootstrap -->
+                <input type="submit" id="_submit" class="btn btn-lg btn-primary btn-block" name="_submit"
+                       value="{{ 'security.login.submit'|trans }}"/>
 
-            <button href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="loginBtn loginBtn--facebook" alt="Sign in with Facebook">Sign in with Facebook</button>
-
+            </form>
+            <form action="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}">
+                <button class="loginBtn loginBtn--facebook" alt="Sign in with Facebook">Sign in with Facebook</button>
+            </form>
             <div class="link_to_change">
                 <a href="{{ path('fos_user_registration_register') }}">S'enregistrer</a> - <a
                         href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
             </div>
-        </form>
+        </div>
+
     </div>
 {% endblock fos_user_content %}

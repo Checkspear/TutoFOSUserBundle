@@ -40,9 +40,6 @@ class FOSUBUserProvider extends BaseClass
         $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
         // Si l'utilisateur n'existe pas
         if (null === $user) {
-            dump($response);
-            var_dump($response['']);
-
 
             $service = $response->getResourceOwner()->getName();
             $setter = 'set'.ucfirst($service);
@@ -55,13 +52,12 @@ class FOSUBUserProvider extends BaseClass
             $user->$setter_token($response->getAccessToken());
 
             // On intègre les champs que l'on souhaite
-            $user->setUsername($username);
-            $user->setEmail($username);
+            $user->setUsername($response->getFirstName().$response->getLastName());
+            $user->setImgProfile($response->getProfilePicture()['data']['url']);
+            $user->setEmail($response->getEmail());
             $user->setPassword($username);
             $user->setEnabled(true);
             $this->userManager->updateUser($user);
-
-
 
             return $user;
         }
