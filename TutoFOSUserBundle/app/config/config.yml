@@ -103,7 +103,8 @@ hwi_oauth:
             type:                facebook
             client_id:           125613794820557
             client_secret:       32d7949fe94dee7ff63b4c035d71b1ce
-            scope:               ""
+            scope:               "email"
+            infos_url:           "https://graph.facebook.com/me?fields=email,first_name,last_name,name,picture.type(square)"
             options:
                 display: popup
             # Google Access

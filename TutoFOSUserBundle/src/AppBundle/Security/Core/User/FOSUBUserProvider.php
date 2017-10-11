@@ -14,6 +14,7 @@ class FOSUBUserProvider extends BaseClass
     {
         $property = $this->getProperty($response);
         $username = $response->getUsername();
+
         //on connect - get the access token and the user ID
         $service = $response->getResourceOwner()->getName();
         $setter = 'set'.ucfirst($service);
@@ -37,30 +38,38 @@ class FOSUBUserProvider extends BaseClass
     {
         $username = $response->getUsername();
         $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
-        //when the user is registrating
+        // Si l'utilisateur n'existe pas
         if (null === $user) {
+            dump($response);
+            var_dump($response['']);
+
+
             $service = $response->getResourceOwner()->getName();
             $setter = 'set'.ucfirst($service);
             $setter_id = $setter.'Id';
             $setter_token = $setter.'AccessToken';
-            // create new user here
+
+            // On créait le nouvel utilisateur ici
             $user = $this->userManager->createUser();
             $user->$setter_id($username);
             $user->$setter_token($response->getAccessToken());
-            //I have set all requested data with the user's username
-            //modify here with relevant data
+
+            // On intègre les champs que l'on souhaite
             $user->setUsername($username);
             $user->setEmail($username);
             $user->setPassword($username);
             $user->setEnabled(true);
             $this->userManager->updateUser($user);
+
+
+
             return $user;
         }
-        //if user exists - go with the HWIOAuth way
+        // Si l'utilsiateur existe, on utilise la méthode parent
         $user = parent::loadUserByOAuthUserResponse($response);
         $serviceName = $response->getResourceOwner()->getName();
         $setter = 'set' . ucfirst($serviceName) . 'AccessToken';
-        //update access token
+        // On change le token
         $user->$setter($response->getAccessToken());
         return $user;
     }
