@@ -51,9 +51,28 @@ class FOSUBUserProvider extends BaseClass
             $user->$setter_id($username);
             $user->$setter_token($response->getAccessToken());
 
+            // Selon le service que l'on appelle
+            switch ($service) {
+                case 'facebook':
+                    $user->setFacebookID($username);
+                    $user->setImgProfile($response->getProfilePicture()['data']['url']);
+                    $user->setUsername($response->getFirstName().$response->getLastName().$response->getUsername());
+                    break;
+                case 'google':
+                    $user->setGoogleID($username);
+                    $user->setImgProfile($response->getProfilePicture());
+                    $user->setUsername($response->getFirstName().$response->getLastName().$response->getUsername());
+                    break;
+                case 'twitter':
+                    $user->setTwitterID($username);
+                    $user->setImgProfile($response->getProfilePicture());
+                    $user->setUsername($response->getResponse()['screen_name']);
+            }
+
             // On intègre les champs que l'on souhaite
-            $user->setUsername($response->getFirstName().$response->getLastName());
-            $user->setImgProfile($response->getProfilePicture()['data']['url']);
+            // Pour le username, on concatène le nom le prénom et l'id
+            //$user->setUsername($response->getFirstName().$response->getLastName().$response->getUsername());
+
             $user->setEmail($response->getEmail());
             $user->setPassword($username);
             $user->setEnabled(true);
